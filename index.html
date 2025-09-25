@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mini Social Feed</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 40px; background: #f5f5f5; }
+    h1 { text-align: center; }
+    #new-post { display: flex; gap: 10px; margin-bottom: 20px; }
+    #new-post input { flex: 1; padding: 8px; }
+    .post { background: #fff; border-radius: 8px; padding: 15px; margin-bottom: 15px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);}
+    .like-btn { background: #0077cc; color: white; border: none;
+                padding: 5px 10px; border-radius: 4px; cursor: pointer;}
+    .like-btn:hover { background: #005fa3; }
+  </style>
+</head>
+<body>
+  <h1>Mini Social Feed</h1>
+  <div id="new-post">
+    <input type="text" id="post-input" placeholder="What's on your mind?" />
+    <button id="add-post">Post</button>
+  </div>
+  <div id="feed"></div>
+
+  <script>
+    const feed = document.getElementById('feed');
+    const postInput = document.getElementById('post-input');
+    const addPostBtn = document.getElementById('add-post');
+
+    function createPost(text) {
+      const post = document.createElement('div');
+      post.className = 'post';
+      post.innerHTML = `
+        <p>${text}</p>
+        <button class="like-btn">Like (<span class="count">0</span>)</button>
+      `;
+      const likeBtn = post.querySelector('.like-btn');
+      const countSpan = post.querySelector('.count');
+      likeBtn.addEventListener('click', () => {
+        countSpan.textContent = parseInt(countSpan.textContent) + 1;
+      });
+      feed.prepend(post);
+    }
+
+    addPostBtn.addEventListener('click', () => {
+      const text = postInput.value.trim();
+      if (text) {
+        createPost(text);
+        postInput.value = '';
+      }
+    });
+  </script>
+</body>
+</html>
